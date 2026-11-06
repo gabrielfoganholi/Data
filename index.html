@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Data</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#14213d;--mut:#5d6b82;--line:#d9e0ea;--acc:#0b8f9c;--accI:#fff;--warn:#c77d0a;--bad:#c2415a;--ok:#2f8f5b;--blue:#3b62d6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1626;--card:#16213a;--ink:#e8edf7;--mut:#93a1bb;--line:#26344f;--acc:#37c3d1;--accI:#06222a;--warn:#e8a93c;--bad:#ef7a91;--ok:#5cc58c;--blue:#8aa6ff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1626;--card:#16213a;--ink:#e8edf7;--mut:#93a1bb;--line:#26344f;--acc:#37c3d1;--accI:#06222a;--warn:#e8a93c;--bad:#ef7a91;--ok:#5cc58c;--blue:#8aa6ff;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font:700 28px "Space Grotesk",system-ui,sans-serif;letter-spacing:-.5px}
+.logo svg{width:38px;height:38px;transition:transform .5s}
+.logo:hover svg{transform:rotate(180deg)}
+.sp{flex:1}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;cursor:pointer;min-height:38px}
+.btn:hover{border-color:var(--acc)}
+.pri{background:var(--acc);color:var(--accI);border-color:var(--acc);font-weight:600}
+.sm{padding:4px 10px;min-height:32px;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:16px 0}
+.st{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.st b{display:block;font:700 24px "Space Grotesk",system-ui,sans-serif}
+.st span{color:var(--mut);font-size:13px}
+.week{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;align-items:stretch}
+.day{flex:1 0 64px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center;cursor:pointer;position:relative}
+.day small{display:block;color:var(--mut)}
+.day b{font:700 20px "Space Grotesk",system-ui,sans-serif}
+.day.sel{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.day.sel small{color:inherit;opacity:.8}
+.day.today b{color:var(--acc)}.day.sel.today b{color:inherit}
+.dots{display:flex;justify-content:center;gap:3px;height:8px;margin-top:2px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.nav{flex:0 0 40px;padding:0}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.bar input,.bar select{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:38px}
+.bar input{flex:1 1 200px}
+h2{font:700 15px "Space Grotesk",system-ui,sans-serif;margin:20px 0 8px;color:var(--mut)}
+.card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--st,var(--mut));border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.card.done{opacity:.6}.card.done .nm{text-decoration:line-through}
+.top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.hr{font:700 15px "Space Grotesk",system-ui,sans-serif;color:var(--acc)}
+.nm{font-weight:600;font-size:16px}
+.tag{font-size:12px;border-radius:99px;padding:1px 9px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.tag.s{border-color:var(--st);color:var(--st);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.chips .tag{background:var(--bg)}
+.path{font:12px ui-monospace,Consolas,monospace;color:var(--mut);margin-top:8px;word-break:break-all}
+.obs{margin:8px 0 0;white-space:pre-wrap;color:var(--ink)}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.empty{text-align:center;color:var(--mut);padding:40px 10px;border:1px dashed var(--line);border-radius:12px}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);width:min(560px,94vw);padding:18px;max-height:92vh}
+dialog::backdrop{background:rgba(8,14,28,.55)}
+label{display:block;font-size:13px;color:var(--mut);margin:10px 0 3px}
+dialog input,dialog select,dialog textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ck{display:flex;flex-wrap:wrap;gap:6px}
+.ck label{margin:0;display:flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:99px;padding:3px 10px;color:var(--ink);cursor:pointer}
+.ck input{width:auto}
+.foot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.sys{display:inline-flex;align-items:center;gap:7px;font:700 15px "Space Grotesk",system-ui,sans-serif;padding:6px 14px;border-radius:10px;align-self:center}
+.sys.Desktop{background:var(--blue);color:var(--card)}
+.sys.Web{background:var(--acc);color:var(--accI)}
+.sys.none{border:1px dashed var(--line);color:var(--mut);font-weight:500;font-size:13px}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.note{margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--bg);white-space:pre-wrap;font-size:14px}
+.note b{display:block;font-size:12px;color:var(--mut);margin-bottom:2px}
+.vt{display:flex;gap:6px;align-items:center;margin:12px 0;flex-wrap:wrap}
+.vt input{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px 8px;min-height:32px}
+.mg{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;width:100%}
+.mg .day{flex:none;min-width:0;padding:6px 2px}
+.mg .hd{text-align:center;color:var(--mut);font-size:12px}
+.tdl{display:flex;align-items:center;gap:8px;margin:0;color:var(--ink);font-size:15px;cursor:pointer}
+.tdl input{width:18px;height:18px;accent-color:var(--acc)}
+@media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="3" width="34" height="34" rx="9" fill="var(--acc)"/><g fill="var(--accI)"><circle cx="12" cy="12" r="3"/><circle cx="28" cy="12" r="3"/><circle cx="20" cy="20" r="3"/><circle cx="12" cy="28" r="3"/><circle cx="28" cy="28" r="3"/></g></svg>
+    Data
+  </div>
+  <div class="sp"></div>
+  <button class="btn" id="theme" title="Alternar tema">Tema</button>
+  <button class="btn" id="exp">Exportar</button>
+  <button class="btn" id="imp">Importar</button>
+  <input type="file" id="file" accept="application/json" hidden>
+  <button class="btn" id="dly">Daily</button>
+  <button class="btn pri" id="new">+ Nova tarefa</button>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<div class="vt" id="tabs"><button class="btn pri" data-tab="agenda">Agenda</button><button class="btn" data-tab="todo">A fazer</button></div>
+<div id="agenda">
+<div class="vt" id="vt"></div>
+<div class="week" id="week"></div>
+
+<div class="bar">
+  <input id="q" type="search" placeholder="Buscar cliente, observação ou caminho">
+  <select id="fs"><option value="">Todos os status</option><option>Pendente</option><option>Agendada</option><option>Reagendar</option><option>Aguardando backup</option><option>Sem backup (relatórios)</option><option>Concluída</option></select>
+  <select id="ft"><option value="">Todos os tipos</option><option>Extração</option><option>Reunião</option><option>Follow-up</option><option>Outra tarefa</option></select>
+  <select id="fy"><option value="">Web e desktop</option><option>Web</option><option>Desktop</option></select>
+  <select id="fn"><option value="">Todos os sistemas antigos</option></select>
+</div>
+
+<div id="list"></div>
+</div>
+
+<div id="todo" hidden>
+<div class="bar"><input id="ti" placeholder="O que precisa fazer?"><select id="tp"><option value="2">Prioridade normal</option><option value="1">Prioridade alta</option><option value="3">Prioridade baixa</option></select><input id="td" type="date" style="flex:0 0 auto" aria-label="Prazo"><button class="btn pri" id="ta">Adicionar</button></div>
+<div id="tl"></div>
+</div>
+</div>
+
+<dialog id="dlg">
+  <div id="f">
+    <b id="dt" style="font:700 18px 'Space Grotesk',system-ui,sans-serif">Nova tarefa</b>
+    <label for="c">Cliente ou título</label><input id="c">
+    <div class="g2">
+      <div><label for="d">Data</label><input id="d" type="date"></div>
+      <div><label for="h">Hora</label><input id="h" type="time"></div>
+      <div><label for="t">Tipo</label><select id="t"><option>Extração</option><option>Reunião</option><option>Follow-up</option><option>Outra tarefa</option></select></div>
+      <div><label for="s">Status</label><select id="s"><option>Pendente</option><option>Agendada</option><option>Reagendar</option><option>Aguardando backup</option><option>Sem backup (relatórios)</option><option>Concluída</option></select></div>
+      <div><label for="y">Sistema</label><select id="y"><option value="">Não informado</option><option>Web</option><option>Desktop</option></select></div>
+      <div><label for="ct">Contato</label><input id="ct" placeholder="Nome ou telefone"></div>
+    </div>
+    <label for="cid">ID do cliente</label><input id="cid" placeholder="Ex.: 88">
+    <div class="g2"><div><label for="sn">Nome do sistema antigo</label><input id="sn" placeholder="Ex.: Gestão Pro, SIGE"></div><div><label for="du">Tempo da extração</label><input id="du" placeholder="Ex.: 1h30"></div></div>
+    <label for="si">Observações importantes do sistema</label><textarea id="si" rows="2" placeholder="Versão, banco de dados, senhas, limitações..."></textarea>
+    <label for="cf">Campos a considerar</label><textarea id="cf" rows="2" placeholder="Ex.: CPF/CNPJ, saldo de estoque, data de vencimento..."></textarea>
+    <label>O que será migrado</label>
+    <div class="ck" id="ck"></div>
+    <label for="p">Caminho dos arquivos e backup</label><input id="p" placeholder="Ex.: C:\Backups\cliente\base.fdb">
+    <label for="o">Observações</label><textarea id="o" rows="4"></textarea>
+    <div class="foot"><button class="btn" id="cx">Cancelar</button><button class="btn pri" id="sv">Salvar</button></div>
+  </div>
+</dialog>
+
+<dialog id="rs">
+  <b style="font:700 18px 'Space Grotesk',system-ui,sans-serif">Reagendar</b>
+  <div class="g2"><div><label for="rd">Nova data</label><input id="rd" type="date"></div><div><label for="rh">Nova hora</label><input id="rh" type="time"></div></div>
+  <label for="rm">Motivo</label><input id="rm" placeholder="Ex.: cliente sem acesso à máquina">
+  <div class="foot"><button class="btn" id="rc">Cancelar</button><button class="btn pri" id="rk">Reagendar</button></div>
+</dialog>
+
+<dialog id="dl">
+  <b style="font:700 18px 'Space Grotesk',system-ui,sans-serif">Daily de hoje</b>
+  <label for="dtx">Mensagem para enviar (você pode editar antes de copiar)</label>
+  <textarea id="dtx" rows="12"></textarea>
+  <div class="foot"><button class="btn" id="dx">Fechar</button><button class="btn pri" id="dcp">Copiar mensagem</button></div>
+</dialog>
+
+<script>
+const ITEMS=["Clientes","Fornecedores","Funcionários","Produtos","Serviços","O.S.","Contas a pagar"];
+const COL={"Pendente":"var(--warn)","Agendada":"var(--blue)","Reagendar":"var(--bad)","Concluída":"var(--ok)","Aguardando backup":"#9b6bf2","Sem backup (relatórios)":"#d1479b"};
+const $=id=>document.getElementById(id);
+const iso=d=>{const x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)};
+const today=iso(new Date());
+const add=(s,n)=>{const d=new Date(s+"T12:00");d.setDate(d.getDate()+n);return iso(d)};
+const br=s=>s.split("-").reverse().join("/");
+const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let view="week",monthRef=today.slice(0,7),tasks=[],sel="",weekStart=add(today,-((new Date().getDay()+6)%7)),editId=null,rsId=null;
+
+function load(){try{tasks=JSON.parse(localStorage.getItem("data_tasks"));}catch(e){}
+ if(!Array.isArray(tasks)){tasks=[
+  {id:1,c:"Exemplo: Mercadinho Boa Compra",d:today,h:"14:00",t:"Extração",s:"Agendada",y:"Desktop",ct:"Marcos",items:["Clientes","Fornecedores","Produtos"],p:"",o:"Acesso remoto combinado. Pedir para fechar o sistema antes do backup."},
+  {id:2,c:"Exemplo: Oficina Silva",d:add(today,1),h:"10:00",t:"Extração",s:"Pendente",y:"",ct:"",items:ITEMS.slice(),p:"",o:"Ainda preciso ligar para entender o sistema."}];}}
+function save(){try{localStorage.setItem("data_tasks",JSON.stringify(tasks));}catch(e){}}
+
+function filtered(base){
+ const q=$("q").value.toLowerCase(),s=$("fs").value,t=$("ft").value,y=$("fy").value,n=$("fn").value;
+ return tasks.filter(k=>(!s||k.s===s)&&(!t||k.t===t)&&(!y||k.y===y)&&(!n||k.sn===n)&&(!q||(k.c+" "+k.o+" "+k.p+" "+k.ct+" "+(k.cid||"")+" "+(k.sn||"")+" "+(k.si||"")+" "+(k.cf||"")).toLowerCase().includes(q))&&(base||!sel||k.d===sel)&&(base||sel||view!=="month"||k.d.slice(0,7)===monthRef));
+}
+
+function render(){
+ const names=[...new Set(tasks.map(k=>k.sn).filter(Boolean))].sort(),cur=$("fn").value;
+ $("fn").innerHTML='<option value="">Todos os sistemas antigos</option>'+names.map(x=>`<option>${esc(x)}</option>`).join("");$("fn").value=cur;
+ const open=tasks.filter(k=>k.s!=="Concluída");
+ $("stats").innerHTML=[["Hoje",open.filter(k=>k.d===today).length],["Pendentes",tasks.filter(k=>k.s==="Pendente").length],["Reagendar",tasks.filter(k=>k.s==="Reagendar").length],["Aguardando backup",tasks.filter(k=>k.s==="Aguardando backup").length],["Sem backup",tasks.filter(k=>k.s==="Sem backup (relatórios)").length],["Atrasadas",open.filter(k=>k.d&&k.d<today).length],["Tempo no mês",fmt(tasks.filter(k=>k.s==="Concluída"&&k.d.slice(0,7)===monthRef).reduce((a,k)=>a+mins(k.du),0))]].map(a=>`<div class="st"><b>${a[1]}</b><span>${a[0]}</span></div>`).join("");
+ const nm=["dom","seg","ter","qua","qui","sex","sáb"];let w=`<button class="btn nav" data-w="-7" aria-label="Semana anterior">‹</button>`;
+ for(let i=0;i<7;i++){const d=add(weekStart,i),n=filtered(true).filter(k=>k.d===d).length;
+  w+=`<div class="day${d===sel?" sel":""}${d===today?" today":""}" data-d="${d}" tabindex="0"><small>${nm[new Date(d+"T12:00").getDay()]}</small><b>${d.slice(8)}</b><div class="dots">${"<i></i>".repeat(Math.min(n,3))}</div></div>`;}
+ w+=`<button class="btn nav" data-w="7" aria-label="Próxima semana">›</button>`;$("week").innerHTML=view==="month"?monthHTML():w;renderVT();
+ const list=filtered().sort((a,b)=>(a.d+a.h).localeCompare(b.d+b.h));
+ if(!list.length){$("list").innerHTML=`<div class="empty">Nenhuma tarefa aqui. Toque em Nova tarefa para adicionar a primeira extração.</div>`;return;}
+ let out="",last=null;
+ list.forEach(k=>{if(k.d!==last){last=k.d;
+   const lab=k.d===today?"Hoje":k.d===add(today,1)?"Amanhã":k.d<today&&k.s!=="Concluída"?"Atrasada":nm[new Date(k.d+"T12:00").getDay()];
+   out+=`<h2>${lab} · ${br(k.d)}</h2>`;}
+  out+=`<div class="card${k.s==="Concluída"?" done":""}" style="--st:${COL[k.s]}"><div class="top">${sysB(k.y)}<span class="hr">${esc(k.h)||"--:--"}</span><span class="nm">${k.cid?`<span class="tag">ID ${esc(k.cid)}</span> `:""}${esc(k.c)}</span><span class="tag s">${k.s}</span><span class="tag">${k.t}</span>${k.ct?`<span class="tag">${esc(k.ct)}</span>`:""}</div>
+  ${k.items.length?`<div class="chips">${k.items.map(i=>`<span class="tag">${i}</span>`).join("")}</div>`:""}
+  ${k.sn||k.du?`<div class="meta">${k.sn?`<span>Sistema antigo: <b>${esc(k.sn)}</b></span>`:""}${k.du?`<span class="tag">Tempo: ${esc(k.du)}</span>`:""}</div>`:""}${k.si?`<div class="note"><b>Sobre o sistema</b>${esc(k.si)}</div>`:""}${k.cf?`<div class="note"><b>Campos a considerar</b>${esc(k.cf)}</div>`:""}${k.p?`<div class="path">${esc(k.p)}</div>`:""}${k.o?`<p class="obs">${esc(k.o)}</p>`:""}
+  <div class="acts">${k.s==="Aguardando backup"?`<button class="btn sm pri" data-a="got" data-i="${k.id}">Backup recebido</button>`:""}${k.s!=="Concluída"?`<button class="btn sm" data-a="done" data-i="${k.id}">Concluir</button><button class="btn sm" data-a="rs" data-i="${k.id}">Reagendar</button>`:`<button class="btn sm" data-a="open" data-i="${k.id}">Reabrir</button>`}<button class="btn sm" data-a="ed" data-i="${k.id}">Editar</button><button class="btn sm" data-a="del" data-i="${k.id}">Excluir</button></div></div>`;});
+ $("list").innerHTML=out;
+}
+
+const SV='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+const IC={Desktop:SV+'<rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',Web:SV+'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0-20"/></svg>'};
+const sysB=y=>y?`<span class="sys ${y}">${IC[y]}${y}</span>`:`<span class="sys none">Sistema não informado</span>`;
+function mins(s){s=(s||"").toLowerCase().replace(",",".");let m=s.match(/(\d+(?:\.\d+)?)\s*h(?:\s*(\d+))?/);if(m)return Math.round(parseFloat(m[1])*60+(+m[2]||0));m=s.match(/(\d+):(\d+)/);if(m)return +m[1]*60+ +m[2];m=s.match(/(\d+)/);return m?+m[1]:0;}
+const fmt=m=>Math.floor(m/60)+"h"+String(m%60).padStart(2,"0");
+function daily(){
+ const wd=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"],tm=add(today,1),L=[];
+ const ln=(a,k,x)=>`- ${a}${k.cid?" ID "+k.cid:""} – ${k.c}${x||""}`,hh=k=>k.h?" às "+k.h:"",open=tasks.filter(k=>k.s!=="Concluída");
+ const by=(f,g)=>open.filter(f).sort((a,b)=>(a.d+a.h).localeCompare(b.d+b.h)).forEach(g);
+ by(k=>k.d===today&&k.s==="Agendada",k=>L.push(ln(k.t,k,hh(k))));
+ by(k=>k.d===today&&k.s.startsWith("Sem backup"),k=>L.push(ln("Extração via relatórios",k,hh(k))));
+ by(k=>k.s==="Pendente"&&k.d<=today,k=>L.push(ln("Agendar",k)));
+ by(k=>k.s==="Aguardando backup",k=>L.push(ln("Aguardando backup",k)));
+ by(k=>k.s==="Reagendar"||(k.s==="Agendada"&&k.d<today),k=>L.push(ln("Reagendar",k)));
+ by(k=>k.s==="Agendada"&&k.d===tm,k=>L.push(ln("Confirmar",k," (amanhã"+hh(k)+")")));
+ todos.filter(t=>!t.x&&(t.p===1||(t.d&&t.d<=today))).forEach(t=>L.push("- "+t.t));
+ $("dtx").value=`Bom dia! Daily ${br(today).slice(0,5)} (${wd[new Date(today+"T12:00").getDay()]})\n\nHoje:\n`+(L.length?L.join("\n"):"- Sem atividades marcadas");
+ $("dl").showModal();}
+$("dly").onclick=daily;$("dx").onclick=()=>$("dl").close();
+$("dcp").onclick=async()=>{const t=$("dtx").value;try{await navigator.clipboard.writeText(t);}catch(e){$("dtx").select();document.execCommand("copy");}$("dcp").textContent="Copiado!";setTimeout(()=>$("dcp").textContent="Copiar mensagem",1500);};
+function monthHTML(){const[y,m]=monthRef.split("-").map(Number),off=(new Date(y,m-1,1).getDay()+6)%7,dim=new Date(y,m,0).getDate(),all=filtered(true);
+ let h=`<div class="mg">`+["seg","ter","qua","qui","sex","sáb","dom"].map(x=>`<div class="hd">${x}</div>`).join("")+"<div></div>".repeat(off);
+ for(let i=1;i<=dim;i++){const d=monthRef+"-"+String(i).padStart(2,"0"),n=all.filter(k=>k.d===d).length;
+  h+=`<div class="day${d===sel?" sel":""}${d===today?" today":""}" data-d="${d}" tabindex="0"><b>${i}</b><div class="dots">${"<i></i>".repeat(Math.min(n,3))}</div></div>`;}
+ return h+"</div>";}
+function renderVT(){$("vt").innerHTML=`<button class="btn sm${view==="week"?" pri":""}" data-v="week">Semana</button><button class="btn sm${view==="month"?" pri":""}" data-v="month">Mês</button><span class="sp"></span>`+(view==="month"?`<button class="btn sm" data-m="-1" aria-label="Mês anterior">‹</button><input type="month" id="mi" value="${monthRef}"><button class="btn sm" data-m="1" aria-label="Próximo mês">›</button>`:"")+`<button class="btn sm" data-m="0">Hoje</button>`;}
+$("vt").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.v){view=b.dataset.v;sel="";}
+ else if(b.dataset.m==="0"){monthRef=today.slice(0,7);weekStart=add(today,-((new Date().getDay()+6)%7));sel="";}
+ else if(b.dataset.m){const[y,m]=monthRef.split("-").map(Number),d=new Date(y,m-1+ +b.dataset.m,1);monthRef=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");sel="";}
+ render();};
+$("vt").onchange=e=>{if(e.target.id==="mi"&&e.target.value){monthRef=e.target.value;sel="";render();}};
+$("tabs").onclick=e=>{const b=e.target.closest("[data-tab]");if(!b)return;$("agenda").hidden=b.dataset.tab!=="agenda";$("todo").hidden=b.dataset.tab!=="todo";[...$("tabs").children].forEach(x=>x.classList.toggle("pri",x===b));};
+
+let todos=[];try{todos=JSON.parse(localStorage.getItem("data_todos"))||[];}catch(e){}
+const PR={1:["Alta","var(--bad)"],2:["Normal","var(--blue)"],3:["Baixa","var(--mut)"]};
+function saveT(){try{localStorage.setItem("data_todos",JSON.stringify(todos));}catch(e){}}
+function renderT(){const l=todos.slice().sort((a,b)=>a.x-b.x||a.p-b.p||(a.d||"9").localeCompare(b.d||"9")),n=todos.filter(t=>!t.x).length;
+ $("tl").innerHTML=l.length?`<h2>${n} a fazer · ${todos.length-n} concluídas</h2>`+l.map(t=>`<div class="card${t.x?" done":""}" style="--st:${PR[t.p][1]}"><div class="top"><label class="tdl"><input type="checkbox" data-t="${t.id}"${t.x?" checked":""}><span class="nm">${esc(t.t)}</span></label>${t.d?`<span class="tag"${!t.x&&t.d<today?` style="color:var(--bad);border-color:var(--bad)"`:""}>${br(t.d)}</span>`:""}<span class="tag">${PR[t.p][0]}</span><span class="sp"></span><button class="btn sm" data-x="${t.id}">Excluir</button></div></div>`).join("")+`<button class="btn sm" id="tc">Limpar concluídas</button>`:`<div class="empty">Sua lista está vazia. Adicione tarefas rápidas que não precisam de horário.</div>`;}
+$("ta").onclick=()=>{const t=$("ti").value.trim();if(!t){$("ti").focus();return;}todos.push({id:Date.now(),t,p:+$("tp").value,d:$("td").value,x:0});$("ti").value="";$("td").value="";saveT();renderT();};
+$("ti").onkeydown=e=>{if(e.key==="Enter")$("ta").click();};
+$("tl").onclick=e=>{const c=e.target.closest("[data-t]"),x=e.target.closest("[data-x]");
+ if(c){todos.find(k=>k.id==c.dataset.t).x=c.checked?1:0;}
+ else if(x)todos=todos.filter(k=>k.id!=x.dataset.x);
+ else if(e.target.id==="tc")todos=todos.filter(k=>!k.x);
+ else return;saveT();renderT();};
+
+function openForm(k){editId=k?k.id:null;$("dt").textContent=k?"Editar tarefa":"Nova tarefa";
+ k=k||{c:"",d:sel||today,h:"",t:"Extração",s:"Pendente",y:"",ct:"",items:ITEMS.slice(),p:"",o:"",cid:"",sn:"",du:"",si:"",cf:""};
+ $("c").value=k.c;$("d").value=k.d;$("h").value=k.h;$("t").value=k.t;$("s").value=k.s;$("y").value=k.y;$("ct").value=k.ct;$("p").value=k.p;$("o").value=k.o;$("cid").value=k.cid||"";$("sn").value=k.sn||"";$("du").value=k.du||"";$("si").value=k.si||"";$("cf").value=k.cf||"";
+ $("ck").innerHTML=ITEMS.map(i=>`<label><input type="checkbox" value="${i}"${k.items.includes(i)?" checked":""}>${i}</label>`).join("");
+ $("dlg").showModal();$("c").focus();}
+
+$("new").onclick=()=>openForm();
+$("cx").onclick=()=>$("dlg").close();
+$("sv").onclick=()=>{const c=$("c").value.trim();if(!c){$("c").focus();return;}
+ const k={id:editId||Date.now(),c,d:$("d").value||today,h:$("h").value,t:$("t").value,s:$("s").value,y:$("y").value,ct:$("ct").value.trim(),p:$("p").value.trim(),o:$("o").value.trim(),cid:$("cid").value.trim(),sn:$("sn").value.trim(),du:$("du").value.trim(),si:$("si").value.trim(),cf:$("cf").value.trim(),items:[...$("ck").querySelectorAll("input:checked")].map(i=>i.value)};
+ const ix=tasks.findIndex(x=>x.id===editId);if(ix>=0)tasks[ix]=k;else tasks.push(k);
+ save();$("dlg").close();render();};
+
+$("list").onclick=e=>{const b=e.target.closest("button");if(!b)return;const id=+b.dataset.i,k=tasks.find(x=>x.id===id);
+ if(b.dataset.a==="got"){k.s="Pendente";k.o=(k.o?k.o+"\n":"")+"Backup recebido em "+br(today);}
+ else if(b.dataset.a==="done")k.s="Concluída";
+ else if(b.dataset.a==="open")k.s="Pendente";
+ else if(b.dataset.a==="ed"){openForm(k);return;}
+ else if(b.dataset.a==="del"){if(confirm("Excluir esta tarefa?"))tasks=tasks.filter(x=>x.id!==id);else return;}
+ else if(b.dataset.a==="rs"){rsId=id;$("rd").value=add(k.d>today?k.d:today,1);$("rh").value=k.h;$("rm").value="";$("rs").showModal();return;}
+ save();render();};
+$("rc").onclick=()=>$("rs").close();
+$("rk").onclick=()=>{const k=tasks.find(x=>x.id===rsId);if(!$("rd").value)return;
+ const m=$("rm").value.trim();k.o=(k.o?k.o+"\n":"")+`Reagendada de ${br(k.d)} ${k.h||""}`.trim()+(m?`: ${m}`:"");
+ k.d=$("rd").value;k.h=$("rh").value;k.s="Agendada";save();$("rs").close();render();};
+
+$("week").onclick=e=>{const n=e.target.closest("[data-w]");if(n){weekStart=add(weekStart,+n.dataset.w);render();return;}
+ const d=e.target.closest(".day");if(d){sel=sel===d.dataset.d?"":d.dataset.d;render();}};
+$("week").onkeydown=e=>{if(e.key==="Enter"&&e.target.classList.contains("day"))e.target.click();};
+["q","fs","ft","fy","fn"].forEach(i=>$(i).oninput=render);
+
+$("exp").onclick=()=>{const a=document.createElement("a");a.href="data:application/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(tasks,null,1));a.download="data-backup-"+today+".json";a.click();};
+$("imp").onclick=()=>$("file").click();
+$("file").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const a=JSON.parse(r.result);if(Array.isArray(a)){tasks=a;save();render();}}catch(x){alert("Arquivo inválido.");}};r.readAsText(f);};
+$("theme").onclick=()=>{const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark";try{localStorage.setItem("data_theme",r.dataset.theme);}catch(e){}};
+try{const t=localStorage.getItem("data_theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}
+load();render();renderT();
+</script>
+</body>
+</html>
